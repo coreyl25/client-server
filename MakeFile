@@ -1,0 +1,55 @@
+# Compiler settings
+CC = gcc
+CXX = g++
+CFLAGS = -Wall -Wextra -std=c99
+CXXFLAGS = -Wall -Wextra -std=c++11
+
+# Target executables
+C_SERVER = server
+C_CLIENT = client
+CPP_SERVER = server_cpp
+CPP_CLIENT = client_cpp
+
+# Source files
+C_SERVER_SRC = server.c
+C_CLIENT_SRC = client.c
+CPP_SERVER_SRC = server.cpp
+CPP_CLIENT_SRC = client.cpp
+
+# Default target
+all: $(C_SERVER) $(C_CLIENT) $(CPP_SERVER) $(CPP_CLIENT)
+
+# C targets
+$(C_SERVER): $(C_SERVER_SRC)
+	$(CC) $(CFLAGS) -o $(C_SERVER) $(C_SERVER_SRC)
+
+$(C_CLIENT): $(C_CLIENT_SRC)
+	$(CC) $(CFLAGS) -o $(C_CLIENT) $(C_CLIENT_SRC)
+
+# C++ targets
+$(CPP_SERVER): $(CPP_SERVER_SRC)
+	$(CXX) $(CXXFLAGS) -o $(CPP_SERVER) $(CPP_SERVER_SRC)
+
+$(CPP_CLIENT): $(CPP_CLIENT_SRC)
+	$(CXX) $(CXXFLAGS) -o $(CPP_CLIENT) $(CPP_CLIENT_SRC)
+
+# Individual targets
+c: $(C_SERVER) $(C_CLIENT)
+cpp: $(CPP_SERVER) $(CPP_CLIENT)
+
+# Clean target
+clean:
+	rm -f $(C_SERVER) $(C_CLIENT) $(CPP_SERVER) $(CPP_CLIENT)
+
+# Test targets
+test-c: $(C_SERVER) $(C_CLIENT)
+	@echo "Testing C implementation..."
+	@echo "Start the server in one terminal: ./$(C_SERVER)"
+	@echo "Run the client in another terminal: ./$(C_CLIENT)"
+
+test-cpp: $(CPP_SERVER) $(CPP_CLIENT)
+	@echo "Testing C++ implementation..."
+	@echo "Start the server in one terminal: ./$(CPP_SERVER)"
+	@echo "Run the client in another terminal: ./$(CPP_CLIENT)"
+
+.PHONY: all c cpp clean test-c test-cpp
